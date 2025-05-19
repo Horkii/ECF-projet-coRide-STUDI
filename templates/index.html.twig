@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Ma page Symfony</title>
+</head>
+<body>
+
+    <h1>Bienvenue</h1>
+
+    {# Contenu HTML ici #}
+    <div>
+        <select id="filter-type">
+            <option value="web">Web</option>
+            <option value="mobile">Mobile</option>
+        </select>
+        <button id="filter-btn">Filtrer</button>
+    </div>
+
+    <div id="results"></div>
+
+    <script>
+    document.getElementById('filter-btn').addEventListener('click', function () {
+      const type = document.getElementById('filter-type').value;
+
+      fetch(`/projects/filter?type=${type}`)
+        .then(response => response.json())
+        .then(data => {
+          const resultsDiv = document.getElementById('results');
+          resultsDiv.innerHTML = `
+            <p>Filtre sélectionné : <strong>${data.type_recu}</strong></p>
+            <p>Message Symfony : ${data.message}</p>
+          `;
+        })
+        .catch(error => {
+          console.error('Erreur lors de la requête :', error);
+        });
+    });
+    </script>
+
+</body>
+</html>
