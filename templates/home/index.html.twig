@@ -1,0 +1,95 @@
+{# templates/home/index.html.twig #}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Mon projet Symfony{% endblock %}</title>
+
+    {# Lien vers la police Poppins sur Google Fonts #}
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    {# Lien vers le fichier CSS #}
+    <link rel="stylesheet" href="{{ asset('css/nav.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/page.css') }}">
+</head
+<body>
+<header>
+    <nav>
+        <ul>
+            <li><button class="nav-button" onclick="window.location.href='{{ path('app_home') }}'">Accueil</button></li>
+            <li><button class="nav-button" onclick="window.location.href='{{ path('covoiturage') }}'">Covoiturage</button></li>
+            <li><button class="nav-button" onclick="window.location.href='{{ path('contact') }}'">Contact</button></li>
+            <li><button class="nav-button" onclick="window.location.href='{{ path('app_login') }}'">Espace personnel</button></li>
+        </ul>
+    </nav>
+</header>
+
+
+    <main>
+        <h1>Bienvenue sur EcoRide</h1>
+        <p>Bienvenue sur notre plateforme de covoiturage. Cherchez des trajets, trouvez des partenaires et économisez sur vos déplacements !</p>
+
+        <div>
+            <h2>Recherchez un trajet</h2>
+            <form action="{{ path('covoiturage') }}" method="get">
+                <label for="depart">Adresse de départ:</label>
+                <input type="text" id="depart" name="depart">
+
+                <label for="arrivee">Adresse d'arrivée:</label>
+                <input type="text" id="arrivee" name="arrivee">
+
+                <label for="date">Date de départ:</label>
+                <input type="date" id="date" name="date">
+
+                <button type="submit">Rechercher</button>
+            </form>
+        </div>
+
+        <!-- Paragraphe sur l'entreprise EcoRide -->
+        <section>
+            <h2>À propos d'EcoRide</h2>
+            <p>
+                EcoRide est une entreprise innovante dédiée à la promotion de la mobilité durable. Nous croyons fermement que l'avenir du transport repose sur une transition énergétique vers des solutions respectueuses de l'environnement. C'est pourquoi nous avons mis en place une plateforme de covoiturage unique, basée sur des véhicules écologiques, notamment des voitures électriques. 
+                <br><br>
+                Nos véhicules utilisent une technologie de pointe permettant de réduire drastiquement les émissions de CO2, contribuant ainsi à la préservation de notre planète. Mais EcoRide ne se limite pas aux voitures électriques. Nous soutenons également l'utilisation d'autres formes d'énergie verte, telles que les véhicules hybrides et ceux alimentés par des carburants alternatifs, dans une vision globale de la transition énergétique.
+                <br><br>
+                Notre mission est simple : rendre le covoiturage accessible à tous tout en réduisant l'empreinte carbone de nos déplacements. Grâce à notre plateforme intuitive, vous pouvez facilement trouver des trajets partagés, économiser de l'argent et contribuer à un avenir plus vert.
+                <br><br>
+                Chez EcoRide, nous ne nous contentons pas de vous aider à voyager ; nous vous offrons aussi la possibilité de faire partie d'un mouvement global pour un transport plus propre et plus responsable. En choisissant EcoRide, vous choisissez de faire une différence, d'adopter un mode de vie plus durable, et de contribuer à un monde où la mobilité est à la fois économique et respectueuse de l'environnement.
+            </p>
+        </section>
+    </main>
+
+    <footer>
+        <section>
+            <h3>Informations Générales</h3>
+            <p>EcoRide - 123 Rue de la Transition, 75000 Paris, France</p>
+            <p>Email : <a href="mailto:contact@ecoride.com">contact@ecoride.com</a></p>
+            <p>Téléphone : +33 1 23 45 67 89</p>
+        </section>
+
+        <section>
+            <h3>Mentions Légales</h3>
+            <p><a href="#">Conditions d'utilisation</a></p>
+            <p><a href="#">Politique de confidentialité</a></p>
+            <p><a href="#">Cookies</a></p>
+        </section>
+
+        <section>
+            <h3>Suivez-nous</h3>
+            <ul>
+                <li><a href="#">Facebook</a></li>
+                <li><a href="#">Twitter</a></li>
+                <li><a href="#">Instagram</a></li>
+                <li><a href="#">LinkedIn</a></li>
+            </ul>
+        </section>
+
+        <p class="copyright">&copy; 2025 EcoRide - Tous droits réservés</p>
+    </footer>
+
+</body>
+</html>

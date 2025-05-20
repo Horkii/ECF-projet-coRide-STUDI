@@ -1,0 +1,105 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/nav.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/page.css') }}">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .page-content {
+            flex-grow: 1;
+            padding-top: 80px; /* Ajustez cette valeur en fonction de la hauteur de votre navbar */
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<header>
+    <nav>
+        <ul>
+            <li><button class="nav-button" onclick="window.location.href='{{ path('app_home') }}'">Accueil</button></li>
+            <li><button class="nav-button" onclick="window.location.href='{{ path('covoiturage') }}'">Covoiturage</button></li>
+            <li><button class="nav-button" onclick="window.location.href='{{ path('contact') }}'">Contact</button></li>
+            <li><button class="nav-button" onclick="window.location.href='{{ path('app_login') }}'">Espace personnel</button></li>
+        </ul>
+    </nav>
+</header>
+
+<div class="page-content container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="text-center">Connexion</h2>
+                </div>
+                <div class="card-body">
+                    {% if error %}
+                        <div class="alert alert-danger">
+                            {{ error.messageKey|trans(error.messageData, 'security') }}
+                        </div>
+                    {% endif %}
+
+                    {{ form_start(loginForm, {'action': path('app_login'), 'method': 'POST', 'class': 'login-form'}) }}
+                    
+                    <div class="form-group mb-3">
+                        {{ form_label(loginForm._username, 'Pseudo') }}
+                        {{ form_widget(loginForm._username, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(loginForm._username) }}
+                    </div>
+
+                    <div class="form-group mb-3">
+                        {{ form_label(loginForm._password, 'Mot de passe') }}
+                        {{ form_widget(loginForm._password, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(loginForm._password) }}
+                    </div>
+
+                    <div class="text-center">
+                        {{ form_widget(loginForm.submit, {'attr': {'class': 'btn btn-primary'}}) }}
+                    </div>
+
+                    {{ form_end(loginForm) }}
+
+                    <div class="text-center mt-3">
+                        <p>Pas de compte ? <a href="{{ path('app_register') }}">Inscrivez-vous</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <section>
+        <h3>Informations Générales</h3>
+        <p>EcoRide - 123 Rue de la Transition, 75000 Paris, France</p>
+        <p>Email : <a href="mailto:contact@ecoride.com">contact@ecoride.com</a></p>
+        <p>Téléphone : +33 1 23 45 67 89</p>
+    </section>
+
+    <section>
+        <h3>Mentions Légales</h3>
+        <p><a href="#">Conditions d'utilisation</a></p>
+        <p><a href="#">Politique de confidentialité</a></p>
+        <p><a href="#">Cookies</a></p>
+    </section>
+
+    <section>
+        <h3>Suivez-nous</h3>
+        <ul>
+            <li><a href="#">Facebook</a></li>
+            <li><a href="#">Twitter</a></li>
+            <li><a href="#">Instagram</a></li>
+            <li><a href="#">LinkedIn</a></li>
+        </ul>
+    </section>
+
+    <p class="copyright">&copy; 2025 EcoRide - Tous droits réservés</p>
+</footer>
+{% endblock %}
