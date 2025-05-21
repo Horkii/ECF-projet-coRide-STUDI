@@ -42,6 +42,26 @@ ecoride/
 -3 branches pour le rendu, main, develoment et Documents pdf pour les annexes du projet
 -2 commits sur development
 
+#Méthode de déploiement en local :
+
+prérequis :
+-php>8.1, avec extensions mongodb et postgreSQL => décocher dans fichier php.ini
+-Composer et ses dépendances 
+-Symfony CLI
+-XAMP
+-MongoDB et MongoDB Compass
+-PostgreSQL et pgAdmin4
+-Mailgun
+
+configurer .env.local :
+-DATABASE_URL="postgresql://utilisateur:motdepasse@127.0.0.1:5432/ma_base"
+-MONGODB_URL="mongodb://127.0.0.1:27017"
+
+Lancer le server symfony cli :
+-symfony serve
+
+Ouvrir la page https://127.0.0.1:8000/
+
 #Contact
 -Reches
 -Loïc
