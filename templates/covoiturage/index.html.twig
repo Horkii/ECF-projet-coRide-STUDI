@@ -1,0 +1,150 @@
+
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<link rel="stylesheet" href="{{ asset('css/nav.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
+
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .content-wrapper {
+            flex: 1 0 auto;
+        }
+        footer {
+            flex-shrink: 0;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<div class="flex flex-col min-h-screen">
+    <header>
+        <nav>
+            <ul>
+                <li><button class="nav-button" onclick="window.location.href='{{ path('app_home') }}'">Accueil</button></li>
+                <li><button class="nav-button" onclick="window.location.href='{{ path('covoiturage') }}'">Covoiturage</button></li>
+                <li><button class="nav-button" onclick="window.location.href='{{ path('contact') }}'">Contact</button></li>
+                <li><button class="nav-button" onclick="window.location.href='{{ path('app_login') }}'">Espace personnel</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="content-wrapper container mx-auto px-4 py-8 flex-grow">
+        <h1 class="text-3xl font-bold mb-6 text-center">Trajets Disponibles</h1>
+
+        <div class="bg-white shadow-md rounded-lg p-6 mb-6">
+            <div class="flex items-center gap-4 mb-4">
+                <input type="text" id="searchInput" placeholder="Rechercher un trajet" 
+                    class="flex-grow px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                
+                <select id="sortSelect" class="px-4 py-2 border rounded-md">
+                    <option value="">Trier par</option>
+                    <option value="price_asc">Prix croissant</option>
+                    <option value="price_desc">Prix décroissant</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table id="trajetsTable" class="w-full bg-white shadow-md rounded-lg">
+                <thead class="bg-gray-200">
+                    <tr>
+                        <th class="px-4 py-3 text-left">Date Départ</th>
+                        <th class="px-4 py-3 text-left">Heure Départ</th>
+                        <th class="px-4 py-3 text-left">Lieu Départ</th>
+                        <th class="px-4 py-3 text-left">Date Arrivée</th>
+                        <th class="px-4 py-3 text-left">Lieu Arrivée</th>
+                        <th class="px-4 py-3 text-left">Places Disponibles</th>
+                        <th class="px-4 py-3 text-left">Prix</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </main>
+
+    <footer class="bg-gray-100 py-6 mt-auto">
+        <div class="container mx-auto px-4">
+            <section class="flex justify-between">
+                <div>
+                    <h3 class="font-bold mb-2">Informations Générales</h3>
+                    <p>EcoRide - 123 Rue de la Transition, 75000 Paris, France</p>
+                    <p>Email : <a href="mailto:contact@ecoride.com">contact@ecoride.com</a></p>
+                    <p>Téléphone : +33 1 23 45 67 89</p>
+                </div>
+                <div>
+                    <h3 class="font-bold mb-2">Mentions Légales</h3>
+                    <p><a href="#">Conditions d'utilisation</a></p>
+                    <p><a href="#">Politique de confidentialité</a></p>
+                    <p><a href="#">Cookies</a></p>
+                </div>
+            </section>
+            <p class="text-center mt-4">&copy; 2025 EcoRide - Tous droits réservés</p>
+        </div>
+    </footer>
+</div>
+
+{% block javascripts %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('searchInput');
+    const sortSelect = document.getElementById('sortSelect');
+    const trajetsBody = document.getElementById('trajetsBody');
+
+    async function fetchTrajets(search = '', sort = '') {
+        try {
+            const response = await fetch(`{{ path('app_covoiturage_api') }}?search=${search}&sort=${sort}`);
+            const trajets = await response.json();
+
+            trajetsBody.innerHTML = '';
+            trajets.forEach(trajet => {
+                const row = document.createElement('tr');
+                row.classList.add('border-b', 'hover:bg-gray-100');
+                row.innerHTML = `
+                    <td class="px-4 py-3">${trajet.date_depart}</td>
+                    <td class="px-4 py-3">${trajet.heure_depart}</td>
+                    <td class="px-4 py-3">${trajet.lieu_depart}</td>
+                    <td class="px-4 py-3">${trajet.date_arrivee}</td>
+                    <td class="px-4 py-3">${trajet.lieu_arrivee}</td>
+                    <td class="px-4 py-3">${trajet.places_disponibles}</td>
+                    <td class="px-4 py-3">${trajet.prix} €</td>
+                `;
+                trajetsBody.appendChild(row);
+            });
+        } catch (error) {
+            console.error('Erreur lors du chargement des trajets:', error);
+            trajetsBody.innerHTML = `
+                <tr>
+                    <td colspan="7" class="text-center text-red-500 p-4">
+                        Impossible de charger les trajets. Veuillez réessayer.
+                    </td>
+                </tr>
+            `;
+        }
+    }
+
+    // Chargement initial des trajets
+    fetchTrajets();
+
+    // Recherche en temps réel
+    searchInput.addEventListener('input', () => {
+        const searchTerm = searchInput.value;
+        const sortMethod = sortSelect.value;
+        fetchTrajets(searchTerm, sortMethod);
+    });
+
+    // Tri des trajets
+    sortSelect.addEventListener('change', () => {
+        const searchTerm = searchInput.value;
+        const sortMethod = sortSelect.value;
+        fetchTrajets(searchTerm, sortMethod);
+    });
+});
+</script>
+{% endblock %}
+{% endblock %}

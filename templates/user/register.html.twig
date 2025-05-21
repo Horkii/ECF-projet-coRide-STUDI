@@ -1,0 +1,125 @@
+
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/nav.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
+{% endblock %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+<header>
+    <nav>
+        <ul>
+            <li><button class="nav-button" onclick="window.location.href='{{ path('app_home') }}'">Accueil</button></li>
+            <li><button class="nav-button" onclick="window.location.href='{{ path('covoiturage') }}'">Covoiturage</button></li>
+            <li><button class="nav-button" onclick="window.location.href='{{ path('contact') }}'">Contact</button></li>
+            <li><button class="nav-button" onclick="window.location.href='{{ path('app_login') }}'">Espace personnel</button></li>
+        </ul>
+    </nav>
+</header>
+
+<main class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="text-center">Inscription</h2>
+                </div>
+                <div class="card-body">
+                    {{ form_start(registrationForm, {'attr': {'class': 'registration-form'}}) }}
+                    
+                    <div class="form-group mb-3">
+                        {{ form_label(registrationForm.nom, 'Nom') }}
+                        {{ form_widget(registrationForm.nom, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(registrationForm.nom) }}
+                    </div>
+
+                    <div class="form-group mb-3">
+                        {{ form_label(registrationForm.prenom, 'Prénom') }}
+                        {{ form_widget(registrationForm.prenom, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(registrationForm.prenom) }}
+                    </div>
+
+                    <div class="form-group mb-3">
+                        {{ form_label(registrationForm.email, 'Email') }}
+                        {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(registrationForm.email) }}
+                    </div>
+
+                    <div class="form-group mb-3">
+                        {{ form_label(registrationForm.telephone, 'Téléphone') }}
+                        {{ form_widget(registrationForm.telephone, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(registrationForm.telephone) }}
+                    </div>
+
+                    <div class="form-group mb-3">
+                        {{ form_label(registrationForm.adresse, 'Adresse') }}
+                        {{ form_widget(registrationForm.adresse, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(registrationForm.adresse) }}
+                    </div>
+
+                    <div class="form-group mb-3">
+                        {{ form_label(registrationForm.dateNaissance, 'Date de naissance') }}
+                        {{ form_widget(registrationForm.dateNaissance, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(registrationForm.dateNaissance) }}
+                    </div>
+
+                    <div class="form-group mb-3">
+                        {{ form_label(registrationForm.pseudo, 'Pseudo') }}
+                        {{ form_widget(registrationForm.pseudo, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(registrationForm.pseudo) }}
+                    </div>
+
+                    <div class="form-group mb-3">
+                        {{ form_label(registrationForm.password, 'Mot de passe') }}
+                        {{ form_widget(registrationForm.password, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(registrationForm.password) }}
+                    </div>
+
+                    <div class="text-center">
+                        {{ form_widget(registrationForm.submit, {'attr': {'class': 'btn btn-primary'}}) }}
+                    </div>
+
+                    {{ form_end(registrationForm) }}
+
+                    <div class="text-center mt-3">
+                        <p>Déjà un compte ? <a href="{{ path('app_login') }}">Connectez-vous</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <section>
+        <h3>Informations Générales</h3>
+        <p>EcoRide - 123 Rue de la Transition, 75000 Paris, France</p>
+        <p>Email : <a href="mailto:contact@ecoride.com">contact@ecoride.com</a></p>
+        <p>Téléphone : +33 1 23 45 67 89</p>
+    </section>
+
+    <section>
+        <h3>Mentions Légales</h3>
+        <p><a href="#">Conditions d'utilisation</a></p>
+        <p><a href="#">Politique de confidentialité</a></p>
+        <p><a href="#">Cookies</a></p>
+    </section>
+
+    <section>
+        <h3>Suivez-nous</h3>
+        <ul>
+            <li><a href="#">Facebook</a></li>
+            <li><a href="#">Twitter</a></li>
+            <li><a href="#">Instagram</a></li>
+            <li><a href="#">LinkedIn</a></li>
+        </ul>
+    </section>
+
+    <p class="copyright">&copy; 2025 EcoRide - Tous droits réservés</p>
+</footer>
+{% endblock %}
