@@ -54,7 +54,7 @@ prérequis :
 -Mailgun
 
 configurer .env.local :
--DATABASE_URL="postgresql://utilisateur:motdepasse@127.0.0.1:5432/ma_base"
+-DATABASE_URL="postgresql://utilisateur:motdepasse@127.0.0.1:5432/ma_base" voir copie : TP_DWWM_Juin/Juil/sept/Oct25_copiearendre_RECHES_loic.pdf
 -MONGODB_URL="mongodb://127.0.0.1:27017"
 
 Lancer le server symfony cli :
