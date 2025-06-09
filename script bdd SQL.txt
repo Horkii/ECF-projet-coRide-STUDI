@@ -1,0 +1,81 @@
+REATE TABLE Utilisateur (
+    id SERIAL PRIMARY KEY,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    roles TEXT,
+    credits INTEGER DEFAULT 20
+);
+
+CREATE TABLE Preference (
+    id SERIAL PRIMARY KEY,
+    utilisateur_id INTEGER NOT NULL UNIQUE,
+    fumeur BOOLEAN DEFAULT FALSE,
+    animaux BOOLEAN DEFAULT FALSE,
+    musique BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (utilisateur_id) REFERENCES Utilisateur(id)
+);
+
+CREATE TABLE Vehicule (
+    id SERIAL PRIMARY KEY,
+    utilisateur_id INTEGER NOT NULL,
+    marque VARCHAR(100),
+    modele VARCHAR(100),
+    couleur VARCHAR(50),
+    electrique BOOLEAN,
+    plaque VARCHAR(50) UNIQUE,
+    places INTEGER,
+    FOREIGN KEY (utilisateur_id) REFERENCES Utilisateur(id)
+);
+
+CREATE TABLE Trajet (
+    id SERIAL PRIMARY KEY,
+    utilisateur_id INTEGER NOT NULL,
+    start_point VARCHAR(255),
+    end_point VARCHAR(255),
+    date_depart TIMESTAMP NOT NULL,
+    date_arrivee TIMESTAMP NOT NULL,
+    prix DECIMAL(10, 2),
+    places_disponibles INTEGER,
+    statut VARCHAR(50),
+    FOREIGN KEY (utilisateur_id) REFERENCES Utilisateur(id)
+);
+
+CREATE TABLE Reservation (
+    id SERIAL PRIMARY KEY,
+    utilisateur_id INTEGER NOT NULL,
+    trajet_id INTEGER NOT NULL,
+    statut VARCHAR(50),
+    date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (utilisateur_id) REFERENCES Utilisateur(id),
+    FOREIGN KEY (trajet_id) REFERENCES Trajet(id)
+);
+
+CREATE TABLE Avis (
+    id SERIAL PRIMARY KEY,
+    utilisateur_id INTEGER NOT NULL,
+    note INTEGER CHECK (note BETWEEN 1 AND 5),
+    commentaire TEXT,
+    valide BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (utilisateur_id) REFERENCES Utilisateur(id)
+);
+
+CREATE TABLE Avis_Reservation (
+    avis_id INTEGER NOT NULL,
+    reservation_id INTEGER NOT NULL,
+    PRIMARY KEY (avis_id, reservation_id),
+    FOREIGN KEY (avis_id) REFERENCES Avis(id),
+    FOREIGN KEY (reservation_id) REFERENCES Reservation(id)
+);
+
+CREATE TABLE Employe (
+    id SERIAL PRIMARY KEY,
+    matricule VARCHAR(50) UNIQUE NOT NULL
+);
+
+CREATE TABLE Employe_Valide_Avis (
+    employe_id INTEGER NOT NULL,
+    avis_id INTEGER NOT NULL,
+    PRIMARY KEY (employe_id, avis_id),
+    FOREIGN KEY (employe_id) REFERENCES Employe(id),
+    FOREIGN KEY (avis_id) REFERENCES Avis(id)
+);
